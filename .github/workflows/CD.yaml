@@ -49,7 +49,7 @@ jobs:
           yq eval ".spec.template.spec.containers[0].image = \"${{ env.IMAGE_NAME }}:${{ github.sha }}\"" -i componente_saludo_deployment.yaml
       - name: Commit changes in external repo
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd proyecto-basico-k8s
           git config --local user.email "action@github.com"
