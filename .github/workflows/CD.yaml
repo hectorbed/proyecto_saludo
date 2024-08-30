@@ -56,5 +56,5 @@ jobs:
           git config --local user.name "GitHub Action"
           git add .
           git commit -m "Actualiza imagen a ${{ env.IMAGE_NAME }}:${{ github.sha }}"
-          git remote set-url origin https://hectorbed:${{ env.GITHUB_TOKEN }}@github.com/hectorbed/proyecto-basico-k8s.git
+          git remote set-url origin https://${{ env.GITHUB_TOKEN }}@github.com/hectorbed/proyecto-basico-k8s.git
           git push origin main
