@@ -38,23 +38,23 @@ jobs:
         run: |
           git clone --single-branch --branch ${{ env.BRANCH }} ${{ env.EXTERNAL_REPO }} proyecto-basico-k8s
           cd proyecto-basico-k8s
-          - name: yq - portable yaml processor
-            uses: mikefarah/yq@v4.44.3
-          - name: Set new image tag
-            env:
-              IMAGE_NAME: hectorbed/microservicio-saludo
-              NEW_TAG: ${{ env.GIT_SHA_SHORT }}
-            run: |
-              cd proyecto-basico-k8s
-              yq eval ".spec.template.spec.containers[0].image = \"${{ env.IMAGE_NAME }}:${{ github.sha }}\"" -i componente-saludo-deployment.yaml
-          - name: Commit changes in external repo
-            env:
-              GITHUB_TOKEN: ${{ secrets.TOKEN }}
-            run: |
-              cd proyecto-basico-k8s
-              git config --local user.email "action@github.com"
-              git config --local user.name "GitHub Action"
-              git add .
-              git commit -m "Actualiza imagen a ${{ env.IMAGE_NAME }}:${{ github.sha }}"
-              git remote set-url origin https://hectorbed:${{ env.GITHUB_TOKEN }}@github.com/hectorbed/proyecto-basico-k8s.git
-              git push origin main
+      - name: yq - portable yaml processor
+        uses: mikefarah/yq@v4.44.3
+      - name: Set new image tag
+        env:
+          IMAGE_NAME: hectorbed/microservicio-saludo
+          NEW_TAG: ${{ env.GIT_SHA_SHORT }}
+        run: |
+          cd proyecto-basico-k8s
+          yq eval ".spec.template.spec.containers[0].image = \"${{ env.IMAGE_NAME }}:${{ github.sha }}\"" -i componente-saludo-deployment.yaml
+      - name: Commit changes in external repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          cd proyecto-basico-k8s
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Actualiza imagen a ${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          git remote set-url origin https://hectorbed:${{ env.GITHUB_TOKEN }}@github.com/hectorbed/proyecto-basico-k8s.git
+          git push origin main
