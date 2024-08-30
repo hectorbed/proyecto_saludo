@@ -12,6 +12,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write      # Allows pushing code to the repository
+      actions: read        # Allows reading workflow files
+      issues: write        # Allows creating or updating issues
+      pull-requests: write # Allows creating or updating pull requests
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
