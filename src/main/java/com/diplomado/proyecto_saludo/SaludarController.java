@@ -9,6 +9,6 @@ public class SaludarController {
 
     @GetMapping("/saludar")
     public ResponseEntity<?> saludar(){
-        return ResponseEntity.ok().body("Hola, Esta es la rueba final con ArgoCD y Helm!");
+        return ResponseEntity.ok().body("Hola, Este es el mensaje que quiero mostrar en el video!");
     }
 }
