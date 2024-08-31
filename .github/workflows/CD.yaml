@@ -37,7 +37,7 @@ jobs:
           BRANCH: 'main'
         run: |
           git clone --single-branch --branch ${{ env.BRANCH }} ${{ env.EXTERNAL_REPO }} proyecto-basico-k8s
-          cd proyecto-basico-k8s
+          cd proyecto-basico-k8s/microservicio-saludo
       - name: yq - portable yaml processor
         uses: mikefarah/yq@v4.44.3
       - name: Set new image tag
@@ -45,16 +45,16 @@ jobs:
           IMAGE_NAME: hectorbed/microservicio-saludo
           NEW_TAG: ${{ env.GIT_SHA_SHORT }}
         run: |
-          cd proyecto-basico-k8s
-          yq eval ".spec.template.spec.containers[0].image = \"${{ env.IMAGE_NAME }}:${{ github.sha }}\"" -i componente_saludo_deployment.yaml
+          cd proyecto-basico-k8s/microservicio-saludo
+          yq eval ".image.tag = \"${{ github.sha }}\"" -i values.yaml
       - name: Commit changes in external repo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd proyecto-basico-k8s
+          cd proyecto-basico-k8s/microservicio-saludo
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "Actualiza imagen a ${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          git commit -m "Actualiza tag de la imagen a ${{ github.sha }}"
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/hectorbed/proyecto-basico-k8s.git
           git push origin main
